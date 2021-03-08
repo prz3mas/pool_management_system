@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form id="new-day-schedule-form" method="POST">{% csrf_token %}
+        <h1 class="h3 mb-3 font-weight-normal text-center">Doda grafik wybrany dzień</h1>
+        {{ form.worker }}
+        {{ form.worker.errors }}
+        <input type="datetime-local" name="start_time" id="inputStartTime" class="form-control">
+        {{ form.start_time.errors }}
+        <input type="datetime-local" name="end_time" id="inputStartTime" class="form-control">
+        {{ form.end_time.errors }}
+
+        {% if form.non_field_errors %}
+            <span>{{ form.non_field_errors }}</span>
+        {% endif %}
+        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Dodaj">
+     </form>
+{% endblock %}

@@ -1,0 +1,36 @@
+<li id="item{{ entrance.id }}" class="row list-group-item pool-entrance-item"
+    onmouseenter="showEditButton(event)" onmouseleave="hideEditButton(event)">
+    <div id="delete-button{{ entrance.id }}" class="entrance-item-modifying-del col" data-mdb-ripple-color="light"
+         onclick="window.location.href = 'http://127.0.0.1:8000/manage/delete/{{ entrance.id }}'"
+         onmouseenter="buttonOnHover(this)" onmouseleave="buttonOffHover(this)">
+        <i class="fas fa-times"></i>
+    </div>
+    <div class="entrance-name col" data-toggle="tooltip" data-placement="top" title="Imię i nazwisko">
+        {{ entrance.first_name }} {{ entrance.last_name }}
+    </div>
+    <div class="entrance-date col" data-toggle="tooltip" data-placement="top" title="Czas wejścia">
+        {{ entrance.entrance_date|date:'d-m-Y H:i' }}
+    </div>
+    <div class="entrance-leave-date col" data-toggle="tooltip" data-placement="top" title="Czas wyjścia">
+    {% if entrance.leave_date %}
+        {{ entrance.leave_date|date:'d-m-Y H:i' }}
+    {% else %}
+        Brak
+    {% endif %}
+    </div>
+    <div class="entrance-pass col" data-toggle="tooltip" data-placement="top" title="Czas wstępu">
+        {{ entrance.get_permission_for_display }}
+    </div>
+    <div class="entrance-additional-service col" data-toggle="tooltip" data-placement="top" title="Dodatkowe usługi">
+    {% if entrance.additional_service %}
+        {{ entrance.get_additional_service_display }}
+    {% else %}
+        Brak
+    {% endif %}
+    </div>
+    <div id="edit-button{{ entrance.id }}" class="entrance-item-modifying-edit col"
+         onclick="window.location.href = 'http://127.0.0.1:8000/manage/edit-pool-entrance/{{ entrance.id }}'"
+         data-mdb-ripple-color="light" onmouseenter="buttonOnHover(this)" onmouseleave="buttonOffHover(this)">
+        <i class="fas fa-edit"></i>
+    </div>
+</li>

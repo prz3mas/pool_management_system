@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    body {
+        background: url('{% static "management_systems/woda.png" %}');
+    }
+</style>
+    <form id="delete-pool-entrance-form" method="post">{% csrf_token %}
+        <div class="card text-white bg-dark mb-3">
+            <div class="card-header">Komunikat</div>
+            <div class="card-body">
+                <h6 class="card-title">Czy na pewno chcesz usunąć rekord ID {{ object.id }}?</h6>
+                <div id="buttons-container">
+                    <button type="submit" class="btn btn-outline-light btn-primary btn-lg">Tak</button>
+                    <a type="button" href="{% url 'pool-management' %}"
+                       class="btn btn btn-outline-light btn-secondary btn-lg">Nie</a>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+

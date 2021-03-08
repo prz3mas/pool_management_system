@@ -1,0 +1,18 @@
+{% load static %}
+<div id="logged-user-card" class="card col border-dark mb-3">
+    <div class="card-header">
+        <h3 class="text-center">Zalogowany jako</h3>
+    </div>
+    <img src="{% static 'management_systems/zdjecie1.png' %}" class="card-img-top">
+      <div class="card-body">
+          <h5 class="card-title">{{ user }}</h5>
+          <p class="card-text">
+              <i class="fas fa-envelope"></i>
+              {{ user.email }}
+              <br>
+              <i class="fas fa-briefcase"></i>
+              {{ user.get_user_type_display }}
+          </p>
+          <a href="#" class="btn btn-primary">Ustawienia</a>
+      </div>
+</div>

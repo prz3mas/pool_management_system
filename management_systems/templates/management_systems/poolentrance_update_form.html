@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form id="edit-pool-entrance-form" method="POST">{% csrf_token %}
+        <h1 class="h3 mb-3 font-weight-normal text-center">Edycja wejścia</h1>
+        <input type="text" name="first_name" id="inputEmail" class="form-control"
+               placeholder="Imię" value="{{ object.first_name }}" required>
+        <input type="text" name="last_name" id="inputEmail" class="form-control"
+               placeholder="Nazwisko" value="{{ object.last_name }}" required>
+        {{ form.additional_service }}
+
+        {% for field in form %}
+            {% for error in field.errors %}
+                <p class="register-error">{{ error }}</p>
+            {% endfor %}
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+            <span>{{ form.non_field_errors.field }}</span>
+        {% endif %}
+        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Zapisz">
+        <a class="btn btn-lg btn-primary btn-block" href="{% url 'close-visit' object.id %}">Zakończ wizytę</a>
+     </form>
+{% endblock %}

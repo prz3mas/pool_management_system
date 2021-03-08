@@ -1,0 +1,99 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'users/style.css' %}">
+    <link rel="icon" href="{% static 'users/favicon.ico' %}">
+    <script src="https://kit.fontawesome.com/0177c65898.js" crossorigin="anonymous"></script>
+    <title>System Zarządzania Basenem</title>
+</head>
+<body>
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand mx-3" href="{% url 'home' %}" >System Zarządzania Basenem</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        {% if not user.is_authenticated %}
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Rejestracja</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Logowanie</a>
+                </li>
+            </ul>
+        {% else %}
+            <ul class="navbar-nav ms-md-auto">
+                {% if user.get_user_type_display == 'recepcjonistka' or user.get_user_type_display == 'kierownik'%}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'create-task' %}">Dodaj zadanie</a>
+                    </li>
+                {% endif %}
+
+                {% if user.get_user_type_display == 'kierownik' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'create-news' %}">Dodaj newsa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'create-day-schedule' %}">Dodaj grafik</a>
+                    </li>
+                {% endif %}
+
+                {% if user.get_user_type_display == 'masażysta' or user.get_user_type_display == 'instruktor pływania' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'pending-services' %}">Oczekujące usługi</a>
+                    </li>
+                {% endif %}
+
+                {% if user.get_user_type_display == 'sprzątaczka' or user.get_user_type_display == 'konserwator' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'task-list' %}">Zlecone zadania</a>
+                    </li>
+                {% endif %}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'coworkers' %}">Pracownicy</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'weekly-schedule' %}">Grafik</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Wyloguj</a>
+                </li>
+            </ul>
+        {% endif %}
+    </div>
+</nav>
+
+<div class="container">
+    {% if user.is_authenticated %}
+        <a type="button" id="profile-info-button"
+           onmouseenter="mouseEnterProfileButton()"
+           onmouseleave="mouseLeaveProfileButton()"
+           class="fas fa-user-alt fa-2x"
+           onclick="showLoggedUserProfile()"></a>
+        {% include 'users/logged_as_card.html' %}
+    {% endif %}
+    {% block content %}
+    {% endblock %}
+</div>
+{% include 'bottom_navbar.html' %}
+
+<script src="{% static 'management_systems/main.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script>
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+</body>
+</html>

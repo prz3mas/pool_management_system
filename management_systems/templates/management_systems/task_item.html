@@ -1,0 +1,44 @@
+<li id="task-item{{ task.id }}" class="row list-group-item pool-entrance-item"
+    onmouseenter="showEditButton(event)" onmouseleave="hideEditButton(event)">
+    <div id="task-delete-button{{ task.id }}" class="entrance-item-modifying-del col" data-mdb-ripple-color="light"
+         onclick="window.location.href = 'http://127.0.0.1:8000/manage/delete/{{ entrance.id }}'"
+         onmouseenter="buttonOnHover(this)" onmouseleave="buttonOffHover(this)">
+        <i class="fas fa-times"></i>
+    </div>
+    <div class="entrance-name col" data-toggle="tooltip" data-placement="top" title="Osoba odpowiedzialna">
+        {{ task.responsible_person }}
+    </div>
+    <div class="entrance-date col" data-toggle="tooltip" data-placement="top" title="Czas utworzenia">
+        {{ task.creation_date|date:'d-m-Y H:i' }}
+    </div>
+    <div class="entrance-pass col" data-toggle="tooltip" data-placement="top" title="Czy wokonane">
+        {% if task.is_done %}
+            Zrobione
+        {% else %}
+            Do wykonania
+        {% endif %}
+    </div>
+
+    <div id="edit-button{{ entrance.id }}" class="entrance-item-modifying-edit col"
+         onclick="window.location.href = 'http://127.0.0.1:8000/manage/edit-pool-entrance/{{ entrance.id }}'"
+         data-mdb-ripple-color="light" onmouseenter="buttonOnHover(this)" onmouseleave="buttonOffHover(this)">
+        <i class="fas fa-edit"></i>
+    </div>
+
+</li>
+<div class="comment-and-description-container">
+    <div class="task-description"  data-toggle="tooltip" data-placement="top" title="Opis zadania">
+        {{ task.description }}
+    </div>
+    <div class="task-comment"  data-toggle="tooltip" data-placement="top" title="Komentarz">
+        {{ task.comment }}
+    </div>
+</div>
+<div class="task-buttons-container">
+    {% if user.get_user_type_display == 'kierownik' or user.get_user_type_display == 'recepcjonistka' %}
+        <a href="{% url 'delete-task' task.id %}" class="btn btn-primary">Usuń zadanie</a>
+    {% elif task.responsible_person == user %}
+        <a href="{% url 'add-task-comment' task.id %}" class="btn btn-primary">Dodaj komentarz</a>
+        <a href="{% url 'change_task_status' task.id %}" class="btn btn-primary">Zmień status wykonania</a>
+    {% endif %}
+</div>

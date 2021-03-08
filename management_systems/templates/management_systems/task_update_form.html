@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div id="create-task-comment-form-container">
+        <form id="create-task-form" method="POST">{% csrf_token %}
+        <h1 class="h3 mb-3 font-weight-normal text-center">Dodaj komentarz</h1>
+        <textarea name="comment" id="inputComment" class="form-control" placeholder="..." required
+                  autofocus></textarea>
+
+        {% for field in form %}
+            {% for error in field.errors %}
+                <p class="register-error">{{ error }}</p>
+            {% endfor %}
+        {% endfor %}
+
+
+        {% if form.non_field_errors %}
+            <span>{{ form.non_field_errors.field }}</span>
+        {% endif %}
+        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Dodaj">
+     </form>
+    </div>
+{% endblock %}

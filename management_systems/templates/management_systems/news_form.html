@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div id="news-form-container" class="text-center">
+        <form id="news-form" method="post">{% csrf_token %}
+            <h1>Dodaj nową wiadomość</h1>
+            <textarea name="content" id="inputContent" class="form-control" placeholder="..." required
+                  autofocus></textarea>
+            <input type="submit" class="btn btn-primary" value="Zapisz">
+        </form>
+    </div>
+{% endblock %}

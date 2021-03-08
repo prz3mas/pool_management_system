@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="card my-5">
+        <h1 class="card-header text-center">
+            Ewidencja wejść na basen
+        </h1>
+        <ul class="list-group list-group-flash text-center">
+            {% for entrance in object_list %}
+                {% include 'management_systems/poolentrance_item.html' %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+

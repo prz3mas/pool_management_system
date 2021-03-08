@@ -1,0 +1,25 @@
+{% if user.get_user_type_display == 'recepcjonistka' or user.get_user_type_display == 'kierownik' %}
+    <nav class="navbar fixed-bottom navbar-light bg-light row text-center">
+  <div class="bottom-navbar-btn col-lg-4 col-sm-12">
+      <a href="{% url 'create-pool-entrance' %}">
+          <button type="button" class="btn btn-primary">
+            Zarejestruj wejście
+          </button>
+      </a>
+  </div>
+  <div class="bottom-navbar-btn col-lg-4 col-sm-12">
+        <a href="{% url 'pool-management' %}">
+            <button type="button" class="btn btn-primary">
+                Aktualni klienci
+            </button>
+        </a>
+  </div>
+    <div class="bottom-navbar-btn col-lg-4 col-sm-12">
+        <a href="{% url 'archive-visits' %}">
+            <button type="button" class="btn btn-primary">
+                Zakończone wizyty
+            </button>
+        </a>
+  </div>
+</nav>
+{% endif %}

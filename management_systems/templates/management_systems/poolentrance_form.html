@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form id="new-pool-entrance-form" method="POST">{% csrf_token %}
+        <h1 class="h3 mb-3 font-weight-normal text-center">Rejestracja nowego wejścia</h1>
+        <input type="text" name="first_name" id="inputEmail" class="form-control" placeholder="Imię" required>
+        <input type="text" name="last_name" id="inputEmail" class="form-control" placeholder="Nazwisko" required>
+        {{ form.permission_for }}
+        {{ form.additional_service }}
+
+        {% for field in form %}
+            {% for error in field.errors %}
+                <p class="register-error">{{ error }}</p>
+            {% endfor %}
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+            <span>{{ form.non_field_errors }}</span>
+        {% endif %}
+        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Dodaj wejście">
+     </form>
+{% endblock %}

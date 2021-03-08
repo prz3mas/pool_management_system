@@ -1,0 +1,79 @@
+<li id="item{{ service.id }}" class="row list-group-item pool-entrance-item"
+    onmouseenter="showEditButton(event)" onmouseleave="hideEditButton(event)">
+    <div class="entrance-name col" data-toggle="tooltip" data-placement="top" title="Imię i nazwisko">
+        {{ service.first_name }} {{ service.last_name }}
+    </div>
+    <div id="entrance-datetime" class="entrance-date col" data-toggle="tooltip" data-placement="top" title="Czas wejścia">
+        {{ service.entrance_date|date:'d-m-Y H:i' }}
+    </div>
+    <div id="ticket-time" class="entrance-pass col" data-toggle="tooltip" data-placement="top" title="Czas wstępu">
+        {{ service.get_permission_for_display }}
+    </div>
+    <div class="entrance-additional-service col" data-toggle="tooltip" data-placement="top" title="Dodatkowe usługi">
+    {% if service.additional_service %}
+        {{ service.get_additional_service_display }}
+    {% else %}
+        Brak
+    {% endif %}
+    </div>
+    <div class="pending-service-buttons col">
+        <div id="time-since-start-{{ service.id }}" data-toggle="tooltip" data-placement="top" title="Czas od rozpoczęcia"></div>
+        <div id="edit-button{{ service.id }}" class="entrance-item-modyifing col"
+             onclick="window.location.href = 'http://127.0.0.1:8000/manage/complete-service/{{ service.id }}'"
+             data-mdb-ripple-color="light" style="right: -50px; top: 0; padding: inherit; background: gray; border-radius: 5px; width: 50px;" onmouseenter="buttonOnHover(this)" onmouseleave="buttonOffHover(this)">
+        Zakończ
+        </div>
+    </div>
+</li>
+
+<script>
+    window.onload = () => setInterval(() => {
+        calculateTimeToEndOfService()
+    }, 1000)
+
+    function calculateTimeToEndOfService() {
+        let timeElement = document.getElementById('entrance-datetime')
+        timeElement = timeElement.innerText.split(' ')
+        let date = timeElement[0].split('-')
+        let hour = timeElement[1].split(':')
+        console.log(date)
+        console.log(hour)
+        console.log(timeElement)
+        let datum = new Date(Date.UTC(date[2], date[1] - 1, date[0], hour[0], hour[1], 0))
+        console.log(datum.getTime() / 1000)
+        let startTimestamp = datum.getTime() / 1000
+        let actualTimestamp = Date.now() / 1000
+        console.log(actualTimestamp, startTimestamp)
+        let diff = Math.floor(actualTimestamp - startTimestamp)
+
+
+
+        let minutesAfterStart = () => {
+            let hours = 0
+            let minutes = 0
+            let counter = 0
+
+            for (let i = 0; i < diff; i++) {
+                if (counter === 60) {
+                    minutes++
+                    counter = 0
+                }
+                counter++
+                if (minutes === 60) {
+                    hours++
+                    minutes = 0
+                }
+            }
+
+            if (minutes < 10) {
+                minutes = `0${minutes}`
+            } else if (counter < 10) {
+                counter = `0${counter}`
+            }
+
+            return [hours, minutes, counter]
+        }
+        let [hours, minutes, seconds] = minutesAfterStart()
+        document.getElementById('time-since-start-{{ service.id }}').innerText = `${hours}:${minutes}:${seconds}`
+    }
+</script>

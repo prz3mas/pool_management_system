@@ -1,0 +1,37 @@
+<tr id="week-schedule-list">
+     {% for day in dayschedule_list %}
+         <td id="hidden{{ day.day_number }}" class="hidden-record">
+             Od: {{ day.start_time|date:'H:i' }} <br> Do: {{ day.end_time|date:'H:i' }}
+         </td>
+     {% endfor %}
+    <td id="0"></td>
+    <td id="1"></td>
+    <td id="2"></td>
+    <td id="3"></td>
+    <td id="4"></td>
+    <td id="5"></td>
+    <td id="6"></td>
+</tr>
+
+<script>
+    let elements = []
+    let parentElement = document.getElementById('week-schedule-list')
+
+    for (let i = 0; i < 7; i++) {
+        let element = document.getElementById('hidden'+i)
+        if (element) {
+            elements.push(element)
+        }
+    }
+
+    for (let el in elements) {
+        let elId = elements[el].id.substr(elements[el].id.length - 1, elements[el].id.length)
+        let destinationElement = document.getElementById(elId)
+        let splittedTime = elements[el].innerText.split(' ')
+        splittedTime[2] = '<br>'
+        splittedTime = splittedTime.join(' ')
+        if (destinationElement) {
+            destinationElement.innerHTML = elements[el].innerHTML
+        }
+    }
+</script>

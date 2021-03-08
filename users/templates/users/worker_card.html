@@ -1,0 +1,15 @@
+{% load static %}
+<div id="coworker-card" class="card col">
+  <img src="{% static 'management_systems/zdjecie1.png' %}" class="card-img-top">
+  <div class="card-body">
+    <h5 class="card-title">{{ worker }}</h5>
+    <p class="card-text">
+        <i class="fas fa-envelope"></i>
+        {{ worker.email }}
+        <br>
+        <i class="fas fa-briefcase"></i>
+        {{ worker.get_user_type_display }}
+    </p>
+    <a href="#" class="btn btn-primary">Kontakt</a>
+  </div>
+</div>
